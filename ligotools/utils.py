@@ -36,7 +36,8 @@ def reqshift(data,fshift=100,sample_rate=4096):
     z = np.fft.irfft(y)
     return z
 	
-def plot_first(time,timemax, SNR, pcolor, det, eventname, plottype):
+	
+def plot_all(time, timemax, SNR, pcolor, det, eventname, plottype, tevent, strain_whitenbp, template_match, template_fft, datafreq, d_eff, freqs, data_psd, fs):
 	plt.figure(figsize=(10,8))
 	plt.subplot(2,1,1)
 	plt.plot(time-timemax, SNR, pcolor,label=det+' SNR(t)')
@@ -58,8 +59,7 @@ def plot_first(time,timemax, SNR, pcolor, det, eventname, plottype):
 	plt.xlabel('Time since {0:.4f}'.format(timemax))
 	plt.legend(loc='upper left')
 	plt.savefig('figures/' + eventname+"_"+det+"_SNR."+plottype)
-
-def plot_second(time, tevent, strain_whitenbp, pcolor, det, template_match, timemax, eventname, plottype):
+	
 	plt.figure(figsize=(10,8))
 	plt.subplot(2,1,1)
 	plt.plot(time-tevent,strain_whitenbp,pcolor,label=det+' whitened h(t)')
@@ -83,8 +83,6 @@ def plot_second(time, tevent, strain_whitenbp, pcolor, det, template_match, time
 	plt.title(det+' Residual whitened data after subtracting template around event')
 	plt.savefig('figures/' + eventname+"_"+det+"_matchtime."+plottype)
 	
-	
-def plot_third(template_fft, datafreq, d_eff, freqs, data_psd, pcolor, det, fs, eventname, plottype):
 	# -- Display PSD and template
 	# must multiply by sqrt(f) to plot template fft on top of ASD:
 	plt.figure(figsize=(10,6))
@@ -99,3 +97,12 @@ def plot_third(template_fft, datafreq, d_eff, freqs, data_psd, pcolor, det, fs, 
 	plt.legend(loc='upper left')
 	plt.title(det+' ASD and template around event')
 	plt.savefig('figures/' + eventname+"_"+det+"_matchfreq."+plottype)
+#def plot_first(time,timemax, SNR, pcolor, det, eventname, plottype):
+	
+
+#def plot_second(time, tevent, strain_whitenbp, pcolor, det, template_match, timemax, eventname, plottype):
+	
+	
+	
+#def plot_third(template_fft, datafreq, d_eff, freqs, data_psd, pcolor, det, fs, eventname, plottype):
+	
