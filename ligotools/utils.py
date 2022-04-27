@@ -1,5 +1,11 @@
 import numpy as np
 from scipy.io import wavfile
+import matplotlib
+import os
+if os.environ.get('DISPLAY','') == '':
+    #print('no display found. Using non-interactive Agg backend')
+    matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
 
@@ -37,7 +43,7 @@ def reqshift(data,fshift=100,sample_rate=4096):
     return z
 	
 	
-def plot_all(time, timemax, SNR, pcolor, det, eventname, plottype, tevent, strain_whitenbp, template_match, template_fft, datafreq, d_eff, freqs, data_psd, fs):
+def plot_all(time, timemax, SNR, pcolor, det, eventname, plottype, tevent, strain_whitenbp, template_match, template_fft, datafreq, d_eff, freqs, data_psd, fs, loc):
 	plt.figure(figsize=(10,8))
 	plt.subplot(2,1,1)
 	plt.plot(time-timemax, SNR, pcolor,label=det+' SNR(t)')
@@ -58,7 +64,7 @@ def plot_all(time, timemax, SNR, pcolor, det, eventname, plottype, tevent, strai
 	plt.grid('on')
 	plt.xlabel('Time since {0:.4f}'.format(timemax))
 	plt.legend(loc='upper left')
-	plt.savefig('figures/' + eventname+"_"+det+"_SNR."+plottype)
+	plt.savefig(loc + eventname+"_"+det+"_SNR."+plottype)
 	
 	plt.figure(figsize=(10,8))
 	plt.subplot(2,1,1)
@@ -81,7 +87,7 @@ def plot_all(time, timemax, SNR, pcolor, det, eventname, plottype, tevent, strai
 	plt.ylabel('whitened strain (units of noise stdev)')
 	plt.legend(loc='upper left')
 	plt.title(det+' Residual whitened data after subtracting template around event')
-	plt.savefig('figures/' + eventname+"_"+det+"_matchtime."+plottype)
+	plt.savefig(loc + eventname+"_"+det+"_matchtime."+plottype)
 	
 	# -- Display PSD and template
 	# must multiply by sqrt(f) to plot template fft on top of ASD:
@@ -96,13 +102,5 @@ def plot_all(time, timemax, SNR, pcolor, det, eventname, plottype, tevent, strai
 	plt.ylabel('strain noise ASD (strain/rtHz), template h(f)*rt(f)')
 	plt.legend(loc='upper left')
 	plt.title(det+' ASD and template around event')
-	plt.savefig('figures/' + eventname+"_"+det+"_matchfreq."+plottype)
-#def plot_first(time,timemax, SNR, pcolor, det, eventname, plottype):
-	
-
-#def plot_second(time, tevent, strain_whitenbp, pcolor, det, template_match, timemax, eventname, plottype):
-	
-	
-	
-#def plot_third(template_fft, datafreq, d_eff, freqs, data_psd, pcolor, det, fs, eventname, plottype):
+	plt.savefig(loc + eventname+"_"+det+"_matchfreq."+plottype)
 	
